@@ -77,13 +77,16 @@ public class BallDemo
 
         myCanvas.setVisible(true);
 
+	Dimension size = myCanvas.getSize();  
+	int lineFimX = size.width - 42; 
+	int lineY = size.height - 42;
         // draw the ground
-        myCanvas.drawLine(50, ground, 550, ground);
-
+        myCanvas.drawLine(42, lineY, lineFimX, lineY); 
+	
         // crate and show the balls
-        BouncingBall ball = new BouncingBall(50, 50, 16, Color.blue, ground, myCanvas);
+        BouncingBall ball = new BouncingBall(42, 40, 16, Color.blue, lineY, myCanvas);
         ball.draw();
-        BouncingBall ball2 = new BouncingBall(70, 80, 20, Color.red, ground, myCanvas);
+        BouncingBall ball2 = new BouncingBall(42, 70, 20, Color.red, lineY, myCanvas);
         ball2.draw();
 
         // make them bounce
@@ -93,7 +96,7 @@ public class BallDemo
             ball.move();
             ball2.move();
             // stop once ball has travelled a certain distance on x axis
-            if(ball.getXPosition() >= 550 && ball2.getXPosition() >= 550) {
+            if(ball.getXPosition() >= lineFimX && ball2.getXPosition() >= lineFimX) {
                 finished = true;
             }
         }
@@ -101,12 +104,12 @@ public class BallDemo
         ball2.erase();
     }
 	
-	/*public void setCanvas(int width, int height){
+	public void setCanvas(int width, int height){
 		myCanvas.setSize(width, height);
-	}*/
+	}
 	
 	/**
-	* Método de criação de retangulo com 20px de distãncia das bordas do canvas
+	* Método de criação de quadro com 20px de distãncia das bordas do canvas
 	*/
 	
 	public void drawFrame(){
@@ -118,4 +121,6 @@ public class BallDemo
 		Rectangle rect = new Rectangle(20, 20, size.width, size.height);
 		myCanvas.draw(rect);
 	}
+
+	
 }

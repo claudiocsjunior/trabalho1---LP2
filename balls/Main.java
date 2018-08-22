@@ -1,8 +1,8 @@
 class main{
 	public static void main(String[] args){
 		BallDemo ball = new BallDemo();
+		//ball.setCanvas(600, 200);
 		ball.drawFrame();
-		ball.setCanvas(700, 600);
-		ball.drawFrame();
+		ball.bounce();
 	}
 }
