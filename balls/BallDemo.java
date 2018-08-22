@@ -100,4 +100,22 @@ public class BallDemo
         ball.erase();
         ball2.erase();
     }
+	
+	/*public void setCanvas(int width, int height){
+		myCanvas.setSize(width, height);
+	}*/
+	
+	/**
+	* Método de criação de retangulo com 20px de distãncia das bordas do canvas
+	*/
+	
+	public void drawFrame(){
+		myCanvas.erase();
+		Dimension size = myCanvas.getSize();  
+		size.width = size.width - 40; 
+		size.height = size.height - 40;
+		System.out.println(size); 	
+		Rectangle rect = new Rectangle(20, 20, size.width, size.height);
+		myCanvas.draw(rect);
+	}
 }
