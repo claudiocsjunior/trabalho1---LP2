@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.geom.*;
+import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Class BallDemo - provides two short demonstrations showing how to use the 
@@ -12,6 +15,8 @@ import java.awt.geom.*;
 public class BallDemo   
 {
     private Canvas myCanvas;
+    private int bordaRect;
+    private ArrayList<BouncingBall> balls;
 
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
@@ -20,6 +25,8 @@ public class BallDemo
     {
         myCanvas = new Canvas("Ball Demo", 600, 500);
         myCanvas.setVisible(true);
+        this.bordaRect = 20;
+        balls = new ArrayList<BouncingBall>();
     }
  
     /**
@@ -71,37 +78,51 @@ public class BallDemo
     /**
      * Simulate two bouncing balls
      */
-    public void bounce()
+    public void bounce(int amountBalls)
     {
-        int ground = 400;   // position of the ground line
+        if(amountBalls > 0){
+            int ground = 400;   // position of the ground line
 
-        myCanvas.setVisible(true);
+            myCanvas.setVisible(true);
 
-	Dimension size = myCanvas.getSize();  
-	int lineFimX = size.width - 42; 
-	int lineY = size.height - 42;
-        // draw the ground
-        myCanvas.drawLine(42, lineY, lineFimX, lineY); 
-	
-        // crate and show the balls
-        BouncingBall ball = new BouncingBall(42, 40, 16, Color.blue, lineY, myCanvas);
-        ball.draw();
-        BouncingBall ball2 = new BouncingBall(42, 70, 20, Color.red, lineY, myCanvas);
-        ball2.draw();
+            Dimension size = myCanvas.getSize();  
+            int lineFimX = size.width - (2 * bordaRect) + 2; 
+            int lineY = size.height - (2 * bordaRect) + 2;
+            // draw the ground
+            myCanvas.drawLine(42, lineY, lineFimX, lineY); 
 
-        // make them bounce
-        boolean finished =  false;
-        while(!finished) {
-            myCanvas.wait(50);           // small delay
-            ball.move();
-            ball2.move();
-            // stop once ball has travelled a certain distance on x axis
-            if(ball.getXPosition() >= lineFimX && ball2.getXPosition() >= lineFimX) {
-                finished = true;
+            // crate and show the balls
+            this.createBalls(amountBalls, size, lineY);
+            for(BouncingBall ball : this.balls){
+                ball.draw();
             }
+
+            // make them bounce
+            boolean finished =  false;
+            int countBallsFinish = 0;
+            while(!finished) {
+                myCanvas.wait(50);           // small delay
+                for(BouncingBall ball : this.balls){
+                    ball.move();
+                    if(ball.getXPosition() >= lineFimX-10){
+                        countBallsFinish++;
+                    }
+                }
+               // ball.move();
+               // ball2.move();
+                // stop once ball has travelled a certain distance on x axis
+                //if(ball.getXPosition() >= lineFimX && ball2.getXPosition() >= lineFimX) {
+                  if(countBallsFinish == amountBalls)
+                    finished = true;
+                //}
+            }
+            for(BouncingBall ball : this.balls){
+                ball.erase();
+            }
+            //ball2.erase();
+        }else{
+            System.out.println("É necessário adicionar pelo menos uma bola para poder utilizar o método.");
         }
-        ball.erase();
-        ball2.erase();
     }
 	
 	public void setCanvas(int width, int height){
@@ -111,16 +132,30 @@ public class BallDemo
 	/**
 	* Método de criação de quadro com 20px de distãncia das bordas do canvas
 	*/
-	
 	public void drawFrame(){
 		myCanvas.erase();
 		Dimension size = myCanvas.getSize();  
-		size.width = size.width - 40; 
-		size.height = size.height - 40;
-		System.out.println(size); 	
-		Rectangle rect = new Rectangle(20, 20, size.width, size.height);
+		size.width = size.width - (2 * this.bordaRect); 
+		size.height = size.height - (2 * this.bordaRect);
+		Rectangle rect = new Rectangle(this.bordaRect, this.bordaRect, size.width, size.height);
 		myCanvas.draw(rect);
 	}
+
+    /**
+	* Método de criação das bolas para animação
+	*/
+    public void createBalls(int amoutBalls, Dimension size, int lineY){
+
+        Random generatorSizeBall = new Random();
+        for(int i = 0; i < amoutBalls; i++){
+            int roundY = Math.round(size.height/2);
+            System.out.println(generatorSizeBall.nextInt(roundY)+20);
+            System.out.println(generatorSizeBall.nextInt(20)+1);
+            System.out.println(lineY);
+            BouncingBall ball = new BouncingBall(42, generatorSizeBall.nextInt(roundY)+20, generatorSizeBall.nextInt(20)+5, Color.blue, lineY, this.myCanvas);
+            this.balls.add(ball);
+        }
+    }
 
 	
 }
