@@ -17,6 +17,7 @@ public class BallDemo
     private Canvas myCanvas;
     private int bordaRect;
     private ArrayList<BouncingBall> balls;
+    private ArrayList<Color> colorsList;
 
     /**
      * Create a BallDemo object. Creates a fresh canvas and makes it visible.
@@ -27,6 +28,7 @@ public class BallDemo
         myCanvas.setVisible(true);
         this.bordaRect = 20;
         balls = new ArrayList<BouncingBall>();
+        this.adicionarCoresList();
     }
  
     /**
@@ -108,13 +110,9 @@ public class BallDemo
                         countBallsFinish++;
                     }
                 }
-               // ball.move();
-               // ball2.move();
-                // stop once ball has travelled a certain distance on x axis
-                //if(ball.getXPosition() >= lineFimX && ball2.getXPosition() >= lineFimX) {
+ 
                   if(countBallsFinish == amountBalls)
                     finished = true;
-                //}
             }
             for(BouncingBall ball : this.balls){
                 ball.erase();
@@ -145,16 +143,32 @@ public class BallDemo
 	* Método de criação das bolas para animação
 	*/
     public void createBalls(int amoutBalls, Dimension size, int lineY){
-
-        Random generatorSizeBall = new Random();
+        Random generator = new Random();
         for(int i = 0; i < amoutBalls; i++){
             int roundY = Math.round(size.height/2);
-            System.out.println(generatorSizeBall.nextInt(roundY)+20);
-            System.out.println(generatorSizeBall.nextInt(20)+1);
-            System.out.println(lineY);
-            BouncingBall ball = new BouncingBall(42, generatorSizeBall.nextInt(roundY)+20, generatorSizeBall.nextInt(20)+5, Color.blue, lineY, this.myCanvas);
+            int color = generator.nextInt(this.colorsList.size());
+            System.out.println(color);
+            BouncingBall ball = new BouncingBall(42, generator.nextInt(roundY)+20, generator.nextInt(20)+5, this.colorsList.get(color), lineY, this.myCanvas);
             this.balls.add(ball);
         }
+    }
+
+    /**
+	* Método de criação das bolas para animação
+    */
+    public void adicionarCoresList(){
+        this.colorsList = new ArrayList<Color>();
+        colorsList.add(Color.BLACK);
+        colorsList.add(Color.BLUE);
+        colorsList.add(Color.CYAN);
+        colorsList.add(Color.DARK_GRAY);
+        colorsList.add(Color.GREEN);
+        colorsList.add(Color.LIGHT_GRAY);
+        colorsList.add(Color.MAGENTA);
+        colorsList.add(Color.ORANGE);
+        colorsList.add(Color.PINK);
+        colorsList.add(Color.RED);
+        colorsList.add(Color.YELLOW);
     }
 
 	
