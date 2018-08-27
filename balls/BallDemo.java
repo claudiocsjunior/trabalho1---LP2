@@ -147,7 +147,6 @@ public class BallDemo
         for(int i = 0; i < amoutBalls; i++){
             int roundY = Math.round(size.height/2);
             int color = generator.nextInt(this.colorsList.size());
-            System.out.println(color);
             BouncingBall ball = new BouncingBall(42, generator.nextInt(roundY)+20, generator.nextInt(20)+5, this.colorsList.get(color), lineY, this.myCanvas);
             this.balls.add(ball);
         }
